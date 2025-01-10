@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.techbellys.utility.bedrock.config.BedrockAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.techbellys.utility.bedrock.config.BedrockAutoConfiguration

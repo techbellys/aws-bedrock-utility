@@ -6,7 +6,7 @@
 
     <groupId>io.github.techbellys</groupId>
     <artifactId>aws-bedrock-utility</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <name>io.github.techbellys:aws-bedrock-utility</name>
     <description>Integrates bedrock Services</description>

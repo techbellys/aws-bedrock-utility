@@ -28,6 +28,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class BedrockAutoConfiguration {
+    static {
+        System.out.println("BedrockAutoConfiguration loaded!");
+    }
 
     /**
      * AWS region for Bedrock services.
