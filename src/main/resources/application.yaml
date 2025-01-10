@@ -1,0 +1,6 @@
+aws:
+  bedrock:
+    region: ${BEDROCK_REGION}
+    credentials:
+      access-key: ${BEDROCK_AWS_ACCESS_KEY}
+      secret-key: ${BEDROCK_AWS_SECRET_KEY}
