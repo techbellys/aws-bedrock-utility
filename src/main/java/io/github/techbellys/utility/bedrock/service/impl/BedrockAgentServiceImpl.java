@@ -2,7 +2,6 @@ package io.github.techbellys.utility.bedrock.service.impl;
 
 import io.github.techbellys.utility.bedrock.service.BedrockAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeAsyncClient;
 import software.amazon.awssdk.services.bedrockagentruntime.model.InvokeAgentRequest;
 import software.amazon.awssdk.services.bedrockagentruntime.model.InvokeAgentResponseHandler;
@@ -14,7 +13,6 @@ import java.util.concurrent.ExecutionException;
  * Implementation of the {@link BedrockAgentService} interface.
  * Provides functionality to invoke an AWS Bedrock Agent asynchronously and retrieve its response.
  */
-@Service
 public class BedrockAgentServiceImpl implements BedrockAgentService {
 
     @Autowired

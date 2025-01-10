@@ -3,26 +3,15 @@ package io.github.techbellys.utility.bedrock.service.impl;
 import io.github.techbellys.utility.bedrock.knowledgebase.KnowledgeBase;
 import io.github.techbellys.utility.bedrock.service.KnowledgeBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the {@link KnowledgeBaseService} interface.
  * Provides functionality to process queries using an AWS Bedrock Knowledge Base.
  */
-@Service
 public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
-    private final KnowledgeBase knowledgeBase;
-
-    /**
-     * Constructs a new {@code KnowledgeBaseServiceImpl} with the specified {@link KnowledgeBase}.
-     *
-     * @param knowledgeBase The {@link KnowledgeBase} instance used to process queries.
-     */
     @Autowired
-    public KnowledgeBaseServiceImpl(KnowledgeBase knowledgeBase) {
-        this.knowledgeBase = knowledgeBase;
-    }
+    private KnowledgeBase knowledgeBase;
 
     /**
      * Processes a query using the specified model and knowledge base.

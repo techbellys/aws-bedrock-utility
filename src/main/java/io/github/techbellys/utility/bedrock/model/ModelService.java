@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
 import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelRequest;
@@ -14,7 +13,6 @@ import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelResponse;
  * Service class to interact with various models using AWS Bedrock runtime.
  * Provides functionality for content moderation, text generation, and invoking models with custom parameters.
  */
-@Service
 public class ModelService {
 
     private static final Logger logger = LoggerFactory.getLogger(ModelService.class);

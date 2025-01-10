@@ -2,7 +2,6 @@ package io.github.techbellys.utility.bedrock.knowledgebase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.bedrockagent.BedrockAgentClient;
 import software.amazon.awssdk.services.bedrockagent.model.*;
 
@@ -10,7 +9,6 @@ import software.amazon.awssdk.services.bedrockagent.model.*;
  * Helper service for synchronizing documents with the AWS Bedrock Knowledge Base.
  * Provides functionality to ingest documents into a specified knowledge base.
  */
-@Service
 public class KnowledgeBaseSyncHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(KnowledgeBaseSyncHelper.class);

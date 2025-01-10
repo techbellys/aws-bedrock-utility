@@ -1,8 +1,12 @@
 package io.github.techbellys.utility.bedrock.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.github.techbellys.utility.bedrock.service.ModerationService;
+import io.github.techbellys.utility.bedrock.service.KnowledgeBaseService;
+import io.github.techbellys.utility.bedrock.service.BedrockAgentService;
+import io.github.techbellys.utility.bedrock.service.impl.ModerationServiceImpl;
+import io.github.techbellys.utility.bedrock.service.impl.KnowledgeBaseServiceImpl;
+import io.github.techbellys.utility.bedrock.service.impl.BedrockAgentServiceImpl;
+import io.github.techbellys.utility.bedrock.knowledgebase.KnowledgeBaseSyncHelper;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -12,13 +16,18 @@ import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeAs
 import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeClient;
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeAsyncClient;
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration class for AWS Bedrock clients.
- * Provides beans for various Bedrock-related clients using AWS SDK.
+ * Auto-configuration for AWS Bedrock Utility Library.
+ *
+ * This configuration class provides Spring beans for interacting with AWS Bedrock services, including clients for Bedrock, Bedrock Agent,
+ * and runtime clients, as well as service implementations for moderation, knowledge base, and agent services.
  */
 @Configuration
-public class AwsBedrockConfig {
+public class BedrockAutoConfiguration {
 
     /**
      * AWS region for Bedrock services.
@@ -39,9 +48,9 @@ public class AwsBedrockConfig {
     private String secretKey;
 
     /**
-     * Creates a {@link BedrockClient} bean.
+     * Creates a {@link BedrockClient} bean for interacting with AWS Bedrock.
      *
-     * @return the configured BedrockClient
+     * @return the configured BedrockClient instance
      */
     @Bean
     public BedrockClient bedrockClient() {
@@ -56,9 +65,9 @@ public class AwsBedrockConfig {
     }
 
     /**
-     * Creates a {@link BedrockAgentClient} bean.
+     * Creates a {@link BedrockAgentClient} bean for interacting with AWS Bedrock Agents.
      *
-     * @return the configured BedrockAgentClient
+     * @return the configured BedrockAgentClient instance
      */
     @Bean
     public BedrockAgentClient bedrockAgentClient() {
@@ -73,9 +82,9 @@ public class AwsBedrockConfig {
     }
 
     /**
-     * Creates a {@link BedrockRuntimeClient} bean.
+     * Creates a {@link BedrockRuntimeClient} bean for synchronous interactions with AWS Bedrock Runtime.
      *
-     * @return the configured BedrockRuntimeClient
+     * @return the configured BedrockRuntimeClient instance
      */
     @Bean
     public BedrockRuntimeClient bedrockRuntimeClient() {
@@ -90,9 +99,9 @@ public class AwsBedrockConfig {
     }
 
     /**
-     * Creates a {@link BedrockRuntimeAsyncClient} bean.
+     * Creates a {@link BedrockRuntimeAsyncClient} bean for asynchronous interactions with AWS Bedrock Runtime.
      *
-     * @return the configured BedrockRuntimeAsyncClient
+     * @return the configured BedrockRuntimeAsyncClient instance
      */
     @Bean
     public BedrockRuntimeAsyncClient bedrockRuntimeAsyncClient() {
@@ -107,9 +116,9 @@ public class AwsBedrockConfig {
     }
 
     /**
-     * Creates a {@link BedrockAgentRuntimeAsyncClient} bean.
+     * Creates a {@link BedrockAgentRuntimeAsyncClient} bean for asynchronous interactions with AWS Bedrock Agent Runtime.
      *
-     * @return the configured BedrockAgentRuntimeAsyncClient
+     * @return the configured BedrockAgentRuntimeAsyncClient instance
      */
     @Bean
     public BedrockAgentRuntimeAsyncClient bedrockAgentRuntimeAsyncClient() {
@@ -124,9 +133,9 @@ public class AwsBedrockConfig {
     }
 
     /**
-     * Creates a {@link BedrockAgentRuntimeClient} bean.
+     * Creates a {@link BedrockAgentRuntimeClient} bean for synchronous interactions with AWS Bedrock Agent Runtime.
      *
-     * @return the configured BedrockAgentRuntimeClient
+     * @return the configured BedrockAgentRuntimeClient instance
      */
     @Bean
     public BedrockAgentRuntimeClient bedrockAgentRuntime() {
@@ -138,5 +147,45 @@ public class AwsBedrockConfig {
                         )
                 )
                 .build();
+    }
+
+    /**
+     * Configures the {@link ModerationService} bean for content moderation.
+     *
+     * @return ModerationService instance
+     */
+    @Bean
+    public ModerationService moderationService() {
+        return new ModerationServiceImpl();
+    }
+
+    /**
+     * Configures the {@link KnowledgeBaseService} bean for querying the AWS Bedrock Knowledge Base.
+     *
+     * @return KnowledgeBaseService instance
+     */
+    @Bean
+    public KnowledgeBaseService knowledgeBaseService() {
+        return new KnowledgeBaseServiceImpl();
+    }
+
+    /**
+     * Configures the {@link BedrockAgentService} bean for interacting with AWS Bedrock Agents.
+     *
+     * @return BedrockAgentService instance
+     */
+    @Bean
+    public BedrockAgentService bedrockAgentService() {
+        return new BedrockAgentServiceImpl();
+    }
+
+    /**
+     * Configures the {@link KnowledgeBaseSyncHelper} bean for synchronizing documents with the AWS Bedrock Knowledge Base.
+     *
+     * @return KnowledgeBaseSyncHelper instance
+     */
+    @Bean
+    public KnowledgeBaseSyncHelper knowledgeBaseSyncHelper() {
+        return new KnowledgeBaseSyncHelper(bedrockAgentClient());
     }
 }

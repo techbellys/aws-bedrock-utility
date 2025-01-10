@@ -14,7 +14,6 @@ import java.util.concurrent.CompletableFuture;
  * Implementation of the {@link ModerationService} interface.
  * Provides functionality for content moderation by analyzing text for abusive language, profanity, or negativity.
  */
-@Service
 public class ModerationServiceImpl implements ModerationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ModerationServiceImpl.class);

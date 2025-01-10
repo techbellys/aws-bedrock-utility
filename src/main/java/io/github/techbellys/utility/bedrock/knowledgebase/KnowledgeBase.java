@@ -1,7 +1,6 @@
 package io.github.techbellys.utility.bedrock.knowledgebase;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,6 @@ import software.amazon.awssdk.services.bedrockagentruntime.model.RetrieveAndGene
  * Service class to handle operations related to the AWS Bedrock Knowledge Base.
  * Provides functionality to process queries using the Retrieve and Generate (RAG) approach.
  */
-@Service
 public class KnowledgeBase {
 
     private static final Logger logger = LoggerFactory.getLogger(KnowledgeBase.class);
