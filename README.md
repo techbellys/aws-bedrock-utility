@@ -16,7 +16,7 @@ Add the library dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.techbellys.utility</groupId>
     <artifactId>bedrock</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
@@ -39,6 +39,27 @@ You can set these environment variables (`BEDROCK_REGION`, `BEDROCK_AWS_ACCESS_K
 ---
 
 ## Usage
+
+### Import Configuration
+To enable the `BedrockAutoConfiguration`, make sure to import it in your Spring Boot application entry point or any configuration class.
+
+#### Example:
+```java
+import io.github.techbellys.utility.bedrock.config.BedrockAutoConfiguration;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
+
+@SpringBootApplication
+@Import(BedrockAutoConfiguration.class)
+public class StartApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(StartApplication.class, args);
+    }
+}
+```
+
+---
 
 ### Bedrock Agent Service
 The `BedrockAgentService` allows you to invoke an AWS Bedrock Agent with a given prompt.
@@ -145,5 +166,3 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 
 ## Support
 If you encounter any issues, please create a new issue on the [GitHub Issues page](https://github.com/techbellys/aws-bedrock-utility/issues).
-```
-
