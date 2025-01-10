@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.bedrockagent.BedrockAgentClient;
 import software.amazon.awssdk.services.bedrockagent.model.*;
 
+/**
+ * Helper service for synchronizing documents with the AWS Bedrock Knowledge Base.
+ * Provides functionality to ingest documents into a specified knowledge base.
+ */
 @Service
 public class KnowledgeBaseSyncHelper {
 
@@ -13,10 +17,23 @@ public class KnowledgeBaseSyncHelper {
 
     private final BedrockAgentClient bedrockAgentClient;
 
+    /**
+     * Constructs a new {@code KnowledgeBaseSyncHelper} with the specified Bedrock Agent client.
+     *
+     * @param bedrockAgentClient The {@link BedrockAgentClient} used to communicate with the Bedrock service.
+     */
     public KnowledgeBaseSyncHelper(BedrockAgentClient bedrockAgentClient) {
         this.bedrockAgentClient = bedrockAgentClient;
     }
 
+    /**
+     * Ingests a document into the specified knowledge base and data source.
+     *
+     * @param knowledgeBaseId The ID of the knowledge base where the document will be ingested.
+     * @param dataSourceId    The ID of the data source associated with the knowledge base.
+     * @param documentId      A unique identifier for the document.
+     * @param content         The content of the document to be ingested.
+     */
     public void ingestDocument(String knowledgeBaseId, String dataSourceId, String documentId, String content) {
         try {
             // Build the inline content
@@ -65,4 +82,3 @@ public class KnowledgeBaseSyncHelper {
         }
     }
 }
-

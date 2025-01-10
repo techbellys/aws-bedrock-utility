@@ -13,18 +13,36 @@ import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeCl
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeAsyncClient;
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
 
+/**
+ * Configuration class for AWS Bedrock clients.
+ * Provides beans for various Bedrock-related clients using AWS SDK.
+ */
 @Configuration
 public class AwsBedrockConfig {
 
+    /**
+     * AWS region for Bedrock services.
+     */
     @Value("${aws.bedrock.region}")
     private String region;
 
+    /**
+     * AWS access key for authentication.
+     */
     @Value("${aws.bedrock.credentials.access-key}")
     private String accessKey;
 
+    /**
+     * AWS secret key for authentication.
+     */
     @Value("${aws.bedrock.credentials.secret-key}")
     private String secretKey;
 
+    /**
+     * Creates a {@link BedrockClient} bean.
+     *
+     * @return the configured BedrockClient
+     */
     @Bean
     public BedrockClient bedrockClient() {
         return BedrockClient.builder()
@@ -37,6 +55,11 @@ public class AwsBedrockConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link BedrockAgentClient} bean.
+     *
+     * @return the configured BedrockAgentClient
+     */
     @Bean
     public BedrockAgentClient bedrockAgentClient() {
         return BedrockAgentClient.builder()
@@ -49,6 +72,11 @@ public class AwsBedrockConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link BedrockRuntimeClient} bean.
+     *
+     * @return the configured BedrockRuntimeClient
+     */
     @Bean
     public BedrockRuntimeClient bedrockRuntimeClient() {
         return BedrockRuntimeClient.builder()
@@ -61,6 +89,11 @@ public class AwsBedrockConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link BedrockRuntimeAsyncClient} bean.
+     *
+     * @return the configured BedrockRuntimeAsyncClient
+     */
     @Bean
     public BedrockRuntimeAsyncClient bedrockRuntimeAsyncClient() {
         return BedrockRuntimeAsyncClient.builder()
@@ -73,6 +106,11 @@ public class AwsBedrockConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link BedrockAgentRuntimeAsyncClient} bean.
+     *
+     * @return the configured BedrockAgentRuntimeAsyncClient
+     */
     @Bean
     public BedrockAgentRuntimeAsyncClient bedrockAgentRuntimeAsyncClient() {
         return BedrockAgentRuntimeAsyncClient.builder()
@@ -85,6 +123,11 @@ public class AwsBedrockConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link BedrockAgentRuntimeClient} bean.
+     *
+     * @return the configured BedrockAgentRuntimeClient
+     */
     @Bean
     public BedrockAgentRuntimeClient bedrockAgentRuntime() {
         return BedrockAgentRuntimeClient.builder()

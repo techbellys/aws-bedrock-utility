@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Service class to handle content moderation functionality.
+ * Implementation of the {@link ModerationService} interface.
+ * Provides functionality for content moderation by analyzing text for abusive language, profanity, or negativity.
  */
 @Service
 public class ModerationServiceImpl implements ModerationService {
@@ -22,15 +23,17 @@ public class ModerationServiceImpl implements ModerationService {
     private ModelService modelService;
 
     /**
-     * Performs content moderation by analyzing the given text for abusive or negative language.
+     * Asynchronously performs content moderation by analyzing the given text for harmful language.
      *
      * @param modelId The ID of the moderation model to use.
-     * @param text    The text to analyze.
-     * @return A CompletableFuture<Boolean> indicating if the content is safe.
+     * @param text    The text to analyze for abusive language, profanity, or negativity.
+     * @return A {@link CompletableFuture} containing a {@code Boolean} indicating if the content is safe.
+     *         {@code true} if the content is clean, {@code false} otherwise.
      */
     @Async
     @Override
     public CompletableFuture<Boolean> moderateContent(String modelId, String text) {
+        // Prepare the moderation prompt
         String moderationPrompt = """
             You are a content moderation tool. Analyze the following text for abusive language, profanity, or negativity.
             If the content is clean and does not contain any harmful language, respond with \"true\".
@@ -41,6 +44,7 @@ public class ModerationServiceImpl implements ModerationService {
         String fullPrompt = moderationPrompt + text;
 
         try {
+            // Invoke the model service to process the moderation request
             String response = modelService.invoke(modelId, fullPrompt, 0.5, 200);
             boolean isSafe = "true".equalsIgnoreCase(response.trim());
             return CompletableFuture.completedFuture(isSafe);

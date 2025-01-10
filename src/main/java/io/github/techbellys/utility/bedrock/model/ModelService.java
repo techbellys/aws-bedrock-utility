@@ -11,7 +11,8 @@ import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelRequest;
 import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelResponse;
 
 /**
- * Service class to interact with various models using AWS Bedrock runtime for content moderation and text generation.
+ * Service class to interact with various models using AWS Bedrock runtime.
+ * Provides functionality for content moderation, text generation, and invoking models with custom parameters.
  */
 @Service
 public class ModelService {
@@ -26,9 +27,11 @@ public class ModelService {
      *
      * @param modelId     The ID of the model to invoke.
      * @param prompt      The input prompt for the model.
-     * @param temperature The temperature parameter for text generation.
-     * @param maxTokens   The maximum number of tokens to generate.
-     * @return The generated completion from the model.
+     * @param temperature The temperature parameter for text generation, controlling randomness (0 to 1).
+     * @param maxTokens   The maximum number of tokens to generate in the output (1 to 2048).
+     * @return The generated completion text from the model.
+     * @throws IllegalArgumentException If the temperature or maxTokens parameters are invalid.
+     * @throws RuntimeException         If an error occurs during model invocation.
      */
     public String invoke(String modelId, String prompt, double temperature, int maxTokens) {
         validateParameters(temperature, maxTokens);
@@ -56,8 +59,9 @@ public class ModelService {
     /**
      * Validates input parameters for the model invocation.
      *
-     * @param temperature The temperature parameter for text generation.
-     * @param maxTokens   The maximum number of tokens to generate.
+     * @param temperature The temperature parameter for text generation, must be between 0 and 1.
+     * @param maxTokens   The maximum number of tokens to generate, must be between 1 and 2048.
+     * @throws IllegalArgumentException If any parameter is outside its valid range.
      */
     private void validateParameters(double temperature, int maxTokens) {
         if (temperature < 0 || temperature > 1) {
@@ -71,10 +75,10 @@ public class ModelService {
     /**
      * Creates the request body for the model invocation.
      *
-     * @param prompt      The prompt to send to the model.
-     * @param temperature The temperature for text generation.
-     * @param maxTokens   The maximum tokens for the output.
-     * @return A JSONObject representing the request body.
+     * @param prompt      The input prompt to send to the model.
+     * @param temperature The temperature parameter controlling the randomness of text generation.
+     * @param maxTokens   The maximum number of tokens to generate in the response.
+     * @return A {@link JSONObject} representing the request body.
      */
     private JSONObject createRequestBody(String prompt, double temperature, int maxTokens) {
         return new JSONObject()
@@ -84,10 +88,11 @@ public class ModelService {
     }
 
     /**
-     * Parses the model response to extract the completion.
+     * Parses the response from the model invocation to extract the generated text.
      *
-     * @param response The response from the model.
-     * @return The extracted completion text.
+     * @param response The {@link InvokeModelResponse} returned by the Bedrock runtime.
+     * @return The extracted completion text from the response.
+     * @throws RuntimeException If the response body does not contain the expected fields.
      */
     private String parseResponse(InvokeModelResponse response) {
         return new JSONObject(response.body().asUtf8String()).getString("completion");

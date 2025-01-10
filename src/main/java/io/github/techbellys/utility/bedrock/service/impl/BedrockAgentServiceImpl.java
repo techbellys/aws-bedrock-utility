@@ -10,12 +10,25 @@ import software.amazon.awssdk.services.bedrockagentruntime.model.InvokeAgentResp
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Implementation of the {@link BedrockAgentService} interface.
+ * Provides functionality to invoke an AWS Bedrock Agent asynchronously and retrieve its response.
+ */
 @Service
 public class BedrockAgentServiceImpl implements BedrockAgentService {
 
     @Autowired
     private BedrockAgentRuntimeAsyncClient bedrockAgentRuntimeAsyncClient;
 
+    /**
+     * Invokes an AWS Bedrock Agent asynchronously with the given prompt and parameters.
+     *
+     * @param prompt       The input text to send to the agent.
+     * @param agentId      The ID of the agent to invoke.
+     * @param agentAliasId The alias ID of the agent.
+     * @param sessionId    The session ID for maintaining agent context across interactions.
+     * @return The accumulated response text from the agent.
+     */
     @Override
     public String invokeBedrockAgent(String prompt,
                                      String agentId,
@@ -49,9 +62,10 @@ public class BedrockAgentServiceImpl implements BedrockAgentService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             // Handle interruption, e.g., log and return partial result or throw a custom exception
+            throw new RuntimeException("Agent invocation was interrupted.", e);
         } catch (ExecutionException e) {
             // Handle the cause of the failure
-            // e.g., log the error, rethrow as runtime exception, etc.
+            throw new RuntimeException("Error occurred during agent invocation: " + e.getCause().getMessage(), e);
         }
 
         // Return the accumulated response
